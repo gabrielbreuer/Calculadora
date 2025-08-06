@@ -15,20 +15,33 @@ function appendOperator(operator){
 
 function calculate(){
     try {
-        let result = eval(currentInput)
-        if (!Number.isInteger(result)){
-            result = result.toFixed(2)
+        let result = eval(currentInput);
+
+        if (isNaN(result) || !isFinite(result)) {
+            throw new Error("Resultado inválido");
         }
-        currentInput = result;
+
+        if (!Number.isInteger(result)) {
+            result = result.toFixed(2);
+        }
+
+        currentInput = result.toString();
         display.textContent = currentInput;
     } catch(error){
-        display.textContent = "Error"
+        display.textContent = "Error";
         currentInput = "";
-
+        console.error("Erro no cálculo:", error);
     }
 }
 
 function clearDisplay(){
     currentInput = "";
     display.textContent = currentInput;
+}
+
+function backspace() {
+    if (currentInput.length > 0) {
+        currentInput = currentInput.slice(0, -1);
+        display.textContent = currentInput;
+    }
 }
